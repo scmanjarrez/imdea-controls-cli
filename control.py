@@ -6,12 +6,16 @@ import sys
 import os
 import argparse
 import json
+from collections import OrderedDict
 from ast import literal_eval
 # import inspect # Debug
 
 URI = 'https://software.imdea.org/intranet/'
+
 conf_filepath = os.path.abspath(os.path.dirname(__file__)) + '/.credentials'
+
 ROOM = 0
+
 data = ['Climate Control Status', 'Climate control fan speed',
         'Climate control mode', 'Manual Door Light Setting',
         'Manual Window Light Setting', 'Sunblind Control',
@@ -20,13 +24,26 @@ data = ['Climate Control Status', 'Climate control fan speed',
         'door_open', 'fanspeed', 'lux_level', 'temp', 'temp_set',
         'window_is_closed', 'window_light', 'window_light_control']
 
+states = OrderedDict([('temp', 'Current Temperature'),
+                      ('temp_set', 'Target Temperature'),
+                      ('climate_control', 'Climate Control State'),
+                      ('climate_mode', 'Climate Control Mode'),
+                      ('fanspeed', 'Climate Control Fan Speed'),
+                      ('lux_level', 'Lux Level'),
+                      ('door_light', 'Door Light Level'),
+                      ('door_light_control', 'Door Light Mode'),
+                      ('window_light', 'Window Light Level'),
+                      ('window_light_control', 'Window Light Mode'),
+                      ('blind', 'Roller Blinds Level')])
+
 controls = {'temp': 'temp',
             'window': 'window_light',
             'door': 'door_light',
             'lights': '("window_light", "door_light")',
             'fspeed': 'fanspeed',
             'clmode': 'climate_mode',
-            'clcontrol': 'climate_control'}
+            'clcontrol': 'climate_control',
+            'opdoor': 'door_open'}
 
 defaults = {'door_light': 'OFF',
             'window_light': 'OFF',
@@ -89,14 +106,14 @@ def author():
 
 
 def file_format():
-    print "File should be named \".credentials\" \
-or indicate the path with the -cf argument"
+    print "File should be named \".credentials\"",
+    print "or indicate the path with the -cf argument"
     print "and must have the following format:"
     print ""
     print "[credentials]"
     print "user = Your_IMDEA_User"
     print "pass = Your_IMDEA_Pass"
-    print "room = Room to modify"
+    print "room = Room_to_modify"
 
 
 def set_default(session):
@@ -111,7 +128,7 @@ def set_control(session, control, value):
     print bcolors.HEADER\
         + "\t[+] INFO: Setting "+control+" to "+value+"..."\
         + bcolors.ENDC,
-    resp = session.get(make_set_url("asd"+control, value))
+    resp = session.get(make_set_url(control, value))
 
     try:
         if json.loads(resp.text)['ok'] is not True:
@@ -199,12 +216,15 @@ def get_current_state(session):
     req = session.get(make_get_url())
     jsn = json.loads(req.text)['data']
 
-    print "%30s: " % "Name", "Value"
-    print "-" * (32+len("Value")+1)
-    for dt in data:
-        print bcolors.HEADER\
-            + "%30s: " % dt, bcolors.OK + jsn[dt]\
-            + bcolors.ENDC
+    print "\t"+"-" * (2+30+3+10+2)
+    print "\t| {: ^30} | {: ^10} |".format("Control", "Value")
+    print "\t"+"-" * (2+30+3+10+2)
+    for dt in states:
+        print "\t| {}{: <30}{} | {}{: >10}{} |"\
+            .format(bcolors.HEADER, states[dt], bcolors.ENDC,
+                    bcolors.OK, jsn[dt], bcolors.ENDC)
+
+    print "\t"+"-" * (2+30+3+10+2)
 
 
 def login(config):
@@ -215,7 +235,8 @@ def login(config):
 
     if req.text.find('Welcome') == -1:
         print bcolors.ERROR\
-            + "\t[-] ERROR: Login could not be completed, check your credentials."\
+            + "\t[-] ERROR: Login could not be completed, "\
+            + "check your credentials."\
             + bcolors.ENDC
         sys.exit(1)
 
@@ -244,6 +265,8 @@ def main(argparser, args):
                 lights = literal_eval(controls[act[0]])
                 set_control(session, lights[0], act[1])
                 set_control(session, lights[1], act[1])
+            elif act[0] == 'opdoor':
+                set_control(session, controls[act[0]], '0')
             else:
                 set_control(session, controls[act[0]], act[1])
 
@@ -262,7 +285,8 @@ def list_used_options(parser, args):
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(prog='control',
-                                        description='Allow control IMDEA building automation parameters.')
+                                        description='Allow control IMDEA'
+                                        + ' building automation parameters.')
 
     argparser.add_argument('-cf', '--conf',
                            help='If set, specify configuration file path.')
@@ -305,6 +329,10 @@ if __name__ == '__main__':
 
     group.add_argument('-c', '--clcontrol',
                        help='Set the climate control.')
+
+    group.add_argument('-op', '--opdoor',
+                       help='Open the door.',
+                       action='store_true')
 
     args = argparser.parse_args()
 
