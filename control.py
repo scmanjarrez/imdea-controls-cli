@@ -82,7 +82,8 @@ class ProcessingConfig:
 
 
 def author():
-    print "Author: Sergio Chica Manjarrez"
+    print "Author: Sergio Chica, @scmanjarrez"
+    print "Acknowledgment: Sergio Valverde, @svg153"
     print "IMDEA Software Institute"
     print "2016-2017"
 
@@ -104,24 +105,28 @@ def set_default(session):
 
 
 def set_control(session, control, value):
+    if check_control_value(control, value):
+        return
+
     print bcolors.HEADER\
-        + "Setting "+control+" to "+value+"..."\
+        + "\t[+] INFO: Setting "+control+" to "+value+"..."\
         + bcolors.ENDC,
-    resp = session.get(make_set_url(control, value))
+    resp = session.get(make_set_url("asd"+control, value))
 
     try:
         if json.loads(resp.text)['ok'] is not True:
             print bcolors.ERROR\
                 + "ERROR"
-            print "\tControl "+control+" could not be set to "+value+"."\
+            print "\t\t[-] Control "+control+" could not be set to "+value+"."\
                 + bcolors.ENDC
         else:
             print bcolors.OK\
-                + "OK"
+                + "OK"\
+                + bcolors.ENDC
     except:
         print bcolors.ERROR\
             + "ERROR"
-        print "\tControl "+control+" is not allowed."\
+        print "\t\t[-] Problems with the server, retry later."\
             + bcolors.ENDC
 
 
@@ -129,43 +134,57 @@ def check_control_value(control, value):
     if control == 'fanspeed':
         if value not in fs_values:
             print bcolors.ERROR\
-                + "ERROR: Fan speed can only be set to "\
+                + "\t[-] ERROR: Fan speed can only be set to "\
                 + "/".join(fs_values)+"."\
                 + bcolors.ENDC
+            return 1
 
     elif control in ('door_light', 'window_light'):
-        if value not in l_values:
+        if value.upper() not in l_values:
             try:
                 if (int(value) > 100 or int(value) < 0):
                     print bcolors.ERROR\
-                        + "ERROR: Light can only be set to "\
+                        + "\t[-] ERROR: Light can only be set to "\
                         + "/".join(l_values)+" or 0-100."\
                         + bcolors.ENDC
+                    return 1
             except:
                 print bcolors.ERROR\
-                    + "ERROR: Light can only be set to "\
+                    + "\t[-] ERROR: Light can only be set to "\
                     + "/".join(l_values)+" or 0-100."\
                     + bcolors.ENDC
+                return 1
 
     elif control == 'climate_mode':
-        if value not in cm_values:
+        if value.upper() not in cm_values:
             print bcolors.ERROR\
-                + "ERROR: Climate mode can only be set to "\
+                + "\t[-] ERROR: Climate mode can only be set to "\
                 + "/".join(cm_values)+"."\
                 + bcolors.ENDC
+            return 1
 
     elif control == 'climate_control':
-        if value not in cc_values:
+        if value.upper() not in cc_values:
             print bcolors.ERROR\
-                + "ERROR: Climate control can only be set to "\
+                + "\t[-] ERROR: Climate control can only be set to "\
                 + "/".join(cc_values)+"."\
                 + bcolors.ENDC
+            return 1
 
     elif control == 'temp':
-        if float(value) > 28 or float(value) < 16:
+        try:
+            if float(value) > 28 or float(value) < 16:
+                print bcolors.ERROR\
+                    + "\t[-] ERROR: Temperature can only be set to 16.0-28.0."\
+                    + bcolors.ENDC
+                return 1
+        except:
             print bcolors.ERROR\
-                + "ERROR: Temperature can only be set to 16.0-28.0."\
+                + "\t[-] ERROR: Temperature can only be set to 16.0-28.0."\
                 + bcolors.ENDC
+            return 1
+
+    return 0
 
 
 def make_get_url():
@@ -196,8 +215,7 @@ def login(config):
 
     if req.text.find('Welcome') == -1:
         print bcolors.ERROR\
-            + "ERROR: ",
-        print "Login could not be completed, check your credentials."\
+            + "\t[-] ERROR: Login could not be completed, check your credentials."\
             + bcolors.ENDC
         sys.exit(1)
 
@@ -305,4 +323,7 @@ if __name__ == '__main__':
         author()
         sys.exit()
 
+    print bcolors.HEADER\
+        + "Starting script..."\
+        + bcolors.ENDC
     main(argparser, args)
