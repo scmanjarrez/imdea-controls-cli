@@ -43,6 +43,7 @@ controls = {'temp': 'temp',
             'fspeed': 'fanspeed',
             'clmode': 'climate_mode',
             'clcontrol': 'climate_control',
+            'blind': 'blind',
             'opdoor': 'door_open'}
 
 defaults = {'door_light': 'OFF',
@@ -99,10 +100,22 @@ class ProcessingConfig:
 
 
 def author():
-    print "Author: Sergio Chica, @scmanjarrez"
-    print "Acknowledgment: Sergio Valverde, @svg153"
-    print "IMDEA Software Institute"
-    print "2016-2017"
+    print "\t"+"-" * 55
+    print "\t| {3}{0: <15}{5} | {4}{1: <15}{5} | {4}{2: >15}{5} |"\
+        .format("Author", "Sergio Chica", "@scmanjarrez",
+                bcolors.HEADER, bcolors.OK, bcolors.ENDC)
+    print "\t| {3}{0: <15}{5} | {4}{1: <15}{5} | {4}{2: >15}{5} |"\
+        .format("Acknowledgment", "Sergio Valverde", "@svg153",
+                bcolors.HEADER, bcolors.OK, bcolors.ENDC)
+    print "\t"+"-" * 55
+    print "\t| {1}{0: ^51}{2} |"\
+        .format("IMDEA Software Institute",
+                bcolors.HEADER, bcolors.ENDC)
+    print "\t"+"-" * 55
+    print "\t| {1}{0: ^51}{2} |"\
+        .format("2016-2017",
+                bcolors.HEADER, bcolors.ENDC)
+    print "\t"+"-" * 55
 
 
 def file_format():
@@ -126,7 +139,7 @@ def set_control(session, control, value):
         return
 
     print bcolors.HEADER\
-        + "\t[+] INFO: Setting "+control+" to "+value+"..."\
+        + "\t[+] INFO: Setting "+states[control]+" to "+value+"..."\
         + bcolors.ENDC,
     resp = session.get(make_set_url(control, value))
 
@@ -134,7 +147,8 @@ def set_control(session, control, value):
         if json.loads(resp.text)['ok'] is not True:
             print bcolors.ERROR\
                 + "ERROR"
-            print "\t\t[-] Control "+control+" could not be set to "+value+"."\
+            print "\t\t[-] Control "+states[control]\
+                + " could not be set to "+value+"."\
                 + bcolors.ENDC
         else:
             print bcolors.OK\
@@ -220,9 +234,9 @@ def get_current_state(session):
     print "\t| {: ^30} | {: ^10} |".format("Control", "Value")
     print "\t"+"-" * (2+30+3+10+2)
     for dt in states:
-        print "\t| {}{: <30}{} | {}{: >10}{} |"\
-            .format(bcolors.HEADER, states[dt], bcolors.ENDC,
-                    bcolors.OK, jsn[dt], bcolors.ENDC)
+        print "\t| {0}{1: <30}{2} | {3}{4: >10}{2} |"\
+            .format(bcolors.HEADER, states[dt],
+                    bcolors.ENDC, bcolors.OK, jsn[dt])
 
     print "\t"+"-" * (2+30+3+10+2)
 
@@ -318,6 +332,9 @@ if __name__ == '__main__':
     group.add_argument('-d', '--door',
                        help='Set the door light.')
 
+    group.add_argument('-b', '--blind',
+                       help='Set the roller blinds.')
+
     group.add_argument('-l', '--lights',
                        help='Set all the lights.')
 
@@ -352,6 +369,6 @@ if __name__ == '__main__':
         sys.exit()
 
     print bcolors.HEADER\
-        + "Starting script..."\
+        + "[+] Script started"\
         + bcolors.ENDC
     main(argparser, args)
