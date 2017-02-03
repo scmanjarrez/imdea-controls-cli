@@ -36,6 +36,14 @@ states = OrderedDict([('temp', 'Current Temperature'),
                       ('window_light_control', 'Window Light Mode'),
                       ('blind', 'Roller Blinds Level')])
 
+args_text = {'temp': 'temperature',
+             'window_light': 'window light',
+             'door_light': 'door light',
+             'fan_speed': 'fan speed',
+             'climate_mode': 'climate mode',
+             'climate_control': 'climate control',
+             'blind': 'roller blind'}
+
 controls = {'temp': 'temp',
             'window': 'window_light',
             'door': 'door_light',
@@ -138,9 +146,14 @@ def set_control(session, control, value):
     if check_control_value(control, value):
         return
 
-    print bcolors.HEADER\
-        + "\t[+] INFO: Setting "+states[control]+" to "+value+"..."\
-        + bcolors.ENDC,
+    if control == 'door_open':
+            print bcolors.HEADER\
+                + "\t[+] INFO: Opening door..."\
+                + bcolors.ENDC,
+    else:
+        print bcolors.HEADER\
+            + "\t[+] INFO: Setting "+args_text[control]+" to "+value+"..."\
+            + bcolors.ENDC,
     resp = session.get(make_set_url(control, value))
 
     try:
@@ -241,7 +254,7 @@ def get_current_state(session):
     print "\t"+"-" * (2+30+3+10+2)
 
 
-def login(config):
+def login(config, args):
     session = requests.session()
     req = session.post(URI, data={'action': 'login',
                                   'user': config.user,
@@ -255,7 +268,10 @@ def login(config):
         sys.exit(1)
 
     global ROOM
-    ROOM = config.room
+    if args.room:
+        ROOM = args.room
+    else:
+        ROOM = config.room
 
     return session
 
@@ -266,7 +282,7 @@ def main(argparser, args):
     else:
         config = ProcessingConfig()
 
-    session = login(config)
+    session = login(config, args)
 
     if args.state:
         get_current_state(session)
@@ -303,7 +319,7 @@ if __name__ == '__main__':
                                         + ' building automation parameters.')
 
     argparser.add_argument('-cf', '--conf',
-                           help='If set, specify configuration file path.')
+                           help='If set, uses specific configuration file.')
 
     argparser.add_argument('-ff', '--file_format',
                            help='Show credentials file format.',
@@ -312,6 +328,9 @@ if __name__ == '__main__':
     argparser.add_argument('-at', '--author',
                            help='Show author information.',
                            action='store_true')
+
+    argparser.add_argument('-r', '--room',
+                           help='If set, modifies specific room.')
 
     group = argparser.add_argument_group('mandatory arguments')
 
