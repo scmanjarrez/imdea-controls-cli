@@ -128,13 +128,11 @@ def author():
 
 def file_format():
     print "File should be named \".credentials\"",
-    print "or indicate the path with the -cf argument"
-    print "and must have the following format:"
+    print "or indicate the path with the -cf argument."
     print ""
-    print "[credentials]"
-    print "user = Your_IMDEA_User"
-    print "pass = Your_IMDEA_Pass"
-    print "room = Room_to_modify"
+    print "Please copy the file \".credentials.template\""
+    print "to \".credentials\" and put your IMDEA Software"
+    print "user, password and room, inside the file"
 
 
 def set_default(session):
