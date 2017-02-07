@@ -12,7 +12,10 @@ from ast import literal_eval
 
 URI = 'https://software.imdea.org/intranet/'
 
-conf_filepath = os.path.abspath(os.path.dirname(__file__)) + '/.credentials'
+conf_word = 'credentials'
+conf_filename = '.credentials'
+conf_template_filename = '.credentials.template'
+conf_filepath = os.path.abspath(os.path.dirname(__file__)) + '/' + conf_filename
 
 ROOM = 0
 
@@ -98,9 +101,9 @@ class ProcessingConfig:
 
         # IMDEA Credentials
         try:
-            self.user = config.get('credentials', 'user')
-            self.passwd = config.get('credentials', 'pass')
-            self.room = config.getint('credentials', 'room')
+            self.user = config.get(conf_word, 'user')
+            self.passwd = config.get(conf_word, 'pass')
+            self.room = config.getint(conf_word, 'room')
 
         except Exception:
             file_format()
@@ -127,12 +130,12 @@ def author():
 
 
 def file_format():
-    print "File should be named \".credentials\"",
+    print "File should be named \""+conf_filename+"\"",
     print "or indicate the path with the -cf argument."
     print ""
-    print "Please copy the file \".credentials.template\""
-    print "to \".credentials\" and put your IMDEA Software"
-    print "user, password and room, inside the file"
+    print "Please copy the file \""+conf_template_filename+"\""
+    print "to \""+conf_filename+"\" and put your IMDEA Software"
+    print "user, password and room, inside the file."
 
 
 def set_default(session):
@@ -261,7 +264,7 @@ def login(config, args):
     if req.text.find('Welcome') == -1:
         print bcolors.ERROR\
             + "\t[-] ERROR: Login could not be completed, "\
-            + "check your credentials."\
+            + "check your "+conf_word+"."\
             + bcolors.ENDC
         sys.exit(1)
 
@@ -320,7 +323,7 @@ if __name__ == '__main__':
                            help='If set, uses specific configuration file.')
 
     argparser.add_argument('-ff', '--file_format',
-                           help='Show credentials file format.',
+                           help='Show '+conf_filename+' file format.',
                            action='store_true')
 
     argparser.add_argument('-at', '--author',
