@@ -156,9 +156,28 @@ def file_format():
     print "user, password and room, inside the file."
 
 
-def set_default(session):
-    for dflt in defaults:
-        set_control(session, dflt, defaults[dflt])
+def set_default(session, conf=defaults):
+    find  = False
+    if conf != 'defaults':
+        for other_conf in other_room_conf:
+            if other_conf == conf:
+                find  = True
+                print bcolors.HEADER\
+                    + "\t[+] INFO: Setting room with"\
+                    + " '" + conf + "' "\
+                    + "setings:"\
+                    + bcolors.ENDC
+                for confI in other_room_conf[conf]:
+                    set_control(session, confI, other_room_conf[conf][confI])
+        if not find:
+            print bcolors.ERROR\
+                + "\t[-] The configuration room"\
+                + " '" + conf + "' "\
+                + "does not exist."\
+                + bcolors.ENDC
+    else:
+        for dflt in defaults:
+            set_control(session, dflt, defaults[dflt])
 
 
 def set_control(session, control, value):
@@ -306,7 +325,9 @@ def main(argparser, args):
     if args.state:
         get_current_state(session)
     elif args.default:
-        set_default(session)
+        actions = list_used_options(argparser, args)
+        for act in actions:
+            set_default(session, act[1])
     else:
         actions = list_used_options(argparser, args)
         for act in actions:
@@ -358,8 +379,8 @@ if __name__ == '__main__':
                        action='store_true')
 
     group.add_argument('-def', '--default',
-                       help='Set the default values.',
-                       action='store_true')
+                       # nargs='?', const='defaults'
+                       help='Set the room with a preconfigure setings.')
 
     group.add_argument('-t', '--temp',
                        help='Set the temperature.')
