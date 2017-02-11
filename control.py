@@ -65,6 +65,24 @@ defaults = {'door_light': 'OFF',
             'fanspeed': '100',
             'temp': '25'}
 
+other_room_conf = {
+    'winter_heat' :
+            {'door_light': 'AUTO',
+            'window_light': 'AUTO',
+            'blind': '80',
+            'climate_mode': 'HEAT',
+            'climate_control': 'ON',
+            'fanspeed': '100',
+            'temp': '23'},
+    'summer_cold' : {'door_light': 'AUTO',
+            'window_light': 'AUTO',
+            'blind': '80',
+            'climate_mode': 'COLD',
+            'climate_control': 'ON',
+            'fanspeed': '100',
+            'temp': '25'}
+}
+
 cc_values = ['ON', 'OFF']
 cm_values = ['HEAT', 'COOL', 'FAN_ONLY']
 fs_values = ['25', '50', '75', '100']
