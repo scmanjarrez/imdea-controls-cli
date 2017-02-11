@@ -42,7 +42,7 @@ states = OrderedDict([('temp', 'Current Temperature'),
 args_text = {'temp': 'temperature',
              'window_light': 'window light',
              'door_light': 'door light',
-             'fan_speed': 'fan speed',
+             'fanspeed': 'fan speed',
              'climate_mode': 'climate mode',
              'climate_control': 'climate control',
              'blind': 'roller blind'}
