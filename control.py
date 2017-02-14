@@ -57,13 +57,38 @@ controls = {'temp': 'temp',
             'blind': 'blind',
             'opdoor': 'door_open'}
 
-defaults = {'door_light': 'OFF',
-            'window_light': 'OFF',
-            'blind': '10',
-            'climate_mode': 'FAN_ONLY',
-            'climate_control': 'OFF',
-            'fanspeed': '100',
-            'temp': '25'}
+room_confs = {
+    'defaults':
+    {
+        'door_light': 'OFF',
+        'window_light': 'OFF',
+        'blind': '10',
+        'climate_mode': 'FAN_ONLY',
+        'climate_control': 'OFF',
+        'fanspeed': '100',
+        'temp': '25'
+    },
+    'winter_heat':
+    {
+        'door_light': 'AUTO',
+        'window_light': 'AUTO',
+        'blind': '80',
+        'climate_mode': 'HEAT',
+        'climate_control': 'ON',
+        'fanspeed': '100',
+        'temp': '23'
+    },
+    'summer_cold':
+    {
+        'door_light': 'AUTO',
+        'window_light': 'AUTO',
+        'blind': '80',
+        'climate_mode': 'COLD',
+        'climate_control': 'ON',
+        'fanspeed': '100',
+        'temp': '25'
+    }
+}
 
 cc_values = ['ON', 'OFF']
 cm_values = ['HEAT', 'COOL', 'FAN_ONLY']
@@ -138,9 +163,15 @@ def file_format():
     print "user, password and room, inside the file."
 
 
-def set_default(session):
-    for dflt in defaults:
-        set_control(session, dflt, defaults[dflt])
+def set_default(session, config):
+    print bcolors.HEADER\
+        + "[++] Setting room with"\
+        + " '" + config + "' "\
+        + "settings"\
+        + bcolors.ENDC
+
+    for dflt in room_confs[config]:
+        set_control(session, dflt, room_confs[config][dflt])
 
 
 def set_control(session, control, value):
@@ -288,7 +319,14 @@ def main(argparser, args):
     if args.state:
         get_current_state(session)
     elif args.default:
-        set_default(session)
+        if args.default not in room_confs:
+            print bcolors.ERROR\
+                + "\t[-] The configuration room"\
+                + " '" + args.default + "' "\
+                + "does not exist."\
+                + bcolors.ENDC
+        else:
+            set_default(session, args.default)
     else:
         actions = list_used_options(argparser, args)
         for act in actions:
@@ -340,8 +378,8 @@ if __name__ == '__main__':
                        action='store_true')
 
     group.add_argument('-def', '--default',
-                       help='Set the default values.',
-                       action='store_true')
+                       nargs='?', const='defaults',
+                       help='Set the room with a preconfigure setings.')
 
     group.add_argument('-t', '--temp',
                        help='Set the temperature.')
@@ -389,6 +427,7 @@ if __name__ == '__main__':
         sys.exit()
 
     print bcolors.HEADER\
-        + "[+] Script started"\
+        + "[++] Script started"\
         + bcolors.ENDC
+
     main(argparser, args)
