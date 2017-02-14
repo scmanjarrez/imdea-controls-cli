@@ -360,7 +360,7 @@ if __name__ == '__main__':
     argparser.add_argument('-cf', '--conf',
                            help='If set, uses specific configuration file.')
 
-    argparser.add_argument('-ff', '--file_format',
+    argparser.add_argument('-ff', '--fformat',
                            help='Show '+conf_filename+' file format.',
                            action='store_true')
 
@@ -379,7 +379,7 @@ if __name__ == '__main__':
 
     group.add_argument('-def', '--default',
                        nargs='?', const='defaults',
-                       help='Set the room with a preconfigure setings.')
+                       help='Set the room with preconfigured settings.')
 
     group.add_argument('-t', '--temp',
                        help='Set the temperature.')
@@ -418,7 +418,7 @@ if __name__ == '__main__':
     if not any(vars(args).values()):
         argparser.error("No argument provided.")
 
-    if args.file_format:
+    if args.fformat:
         file_format()
         sys.exit()
 
