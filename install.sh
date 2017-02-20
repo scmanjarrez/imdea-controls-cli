@@ -58,7 +58,22 @@ python -c "import requests" >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
     echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing requests module...${ENDC}"
-    pip install --user requests >/dev/null 2>&1
+
+    cat .virtualenv-test <<EOF
+import sys
+
+if hasattr(sys, 'real_prefix'):
+   sys.exit(1)
+
+EOF
+
+    python .virtualenv-test
+    
+    if [ $? -eq 1 ]; then
+	pip install requests >/dev/null 2>&1
+    else
+	pip install --user requests >/dev/null 2>&1
+    fi
 
     if [ $? -eq 0 ]; then
         echo -e "${OK}OK${ENDC}"
@@ -94,7 +109,7 @@ grep -Fx "source ~/.aliases" ~/.bashrc >/dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${OK}OK${ENDC}"
 else
-    echo -e $"${ERROR}FAIL\n{HEADER}\t\t[-] Adding alias to .bashrc...${OK}OK${ENDC}"
+    echo -e $"${ERROR}FAIL\n${HEADER}\t\t[-] Adding alias to .bashrc...${OK}OK${ENDC}"
     echo "source ~/.aliases" >> ~/.bashrc    
 fi
 
