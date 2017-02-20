@@ -15,7 +15,7 @@ echo ""
 echo -n "[++] Checking for dependencies..."
 echo -e "${ENDC}"
 
-echo -e "${HEADER}\t[+] Updating apt... please type your pass...${ENDC}"
+echo -e "${HEADER}\t[+] Updating apt... please type your password...${ENDC}"
 sudo apt-get update -qq
 
 # TODO: check if python is python 2.7
@@ -59,7 +59,7 @@ python -c "import requests" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing requests module...${ENDC}"
 
-    cat .virtualenv-test <<EOF
+    cat <<EOF > .virtualenv-test 
 import sys
 
 if hasattr(sys, 'real_prefix'):
@@ -80,6 +80,8 @@ EOF
     else
         echo -e "${ERROR}ERROR${ENDC}"
     fi
+    
+    rm .virtualenv-test
 else
     echo -e "${OK}OK${ENDC}"
 fi
