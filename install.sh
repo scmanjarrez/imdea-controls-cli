@@ -78,21 +78,50 @@ fi
 echo ""
 echo -e -n "${HEADER}[++] Setting alias for control.py...${ENDC}"
 
-#TODO: check if exist the same lime
-#TODO: check if exist the same alias 'icp'. If exist make with this 'imdea-control'
 alias_def="icp"
 alias_long="imdea-control"
-alias_final="" # to set with the final alias added in .aliases
-echo "alias icp='${PWD}/control.py'" >> ~/.aliases
+alias_final="" # to set with the final alias added in ~/.aliases
+echo -e -n "${HEADER}\t[+] Checking if alias $alias_def already exists in ~/.aliases file...${ENDC}"
+grep -Fx "alias $alias_def" ~/.aliases
+
+if [ $? -eq 0 ]; then
+    echo -e "${ERROR}FAIL${ENDC}"
+    echo -e "${HEADER}\t[-] Setting $alias_long as alias...${OK}OK${ENDC}"
+    echo "alias $alias_long='${PWD}/control.py'" >> ~/.aliases
+    alias_final=$alias_long
+    
+else
+    echo -e "${OK}OK${ENDC}"
+    echo -e "${HEADER}\t[-] Setting $alias_def as alias...${OK}OK${ENDC}"
+    echo "alias $alias_def='${PWD}/control.py'" >> ~/.aliases
+    alias_final=$alias_def
+fi
+
+echo -e -n "${HEADER}\t[+] Checking if alias already exists in .bashrc...${ENDC}"
+grep -Fx "source ~/.aliases" ~/.bashrc
 
 if [ $? -eq 0 ]; then
     echo -e "${OK}OK${ENDC}"
 else
-    echo -e "${ERROR}ERROR${ENDC}"
+    echo -e "${ERROR}FAIL${ENDC}"
+    echo -e "${HEADER}\t[-] Adding alias to .bashrc...${OK}OK${ENDC}"
+    echo "source ~/.aliases" >> ~/.bashrc    
+fi
+
+
+echo -e -n "${HEADER}\t[+] Checking if alias already exists in .bashrc...${ENDC}"
+grep -Fx "source ~/.aliases" ~/.zshrc
+
+if [ $? -eq 0 ]; then
+    echo -e "${OK}OK${ENDC}"
+else
+    echo -e "${ERROR}FAIL${ENDC}"
+    echo -e "${HEADER}\t[-] Adding alias to .zshrc...${OK}OK${ENDC}"
+    echo "source ~/.aliases" >> ~/.zshrc
 fi
 
 echo -e "${HEADER}"
-echo -e -n "Installation finished, run your script with \"icp\" command"
+echo -e -n "Installation finished, run your script with \"$alias_final\" command"
 echo -e "${ENDC}"
 echo ""
 
