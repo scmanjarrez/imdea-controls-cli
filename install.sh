@@ -15,17 +15,17 @@ echo ""
 echo -n "[++] Checking for dependencies..."
 echo -e "${ENDC}"
 
-echo -e "${HEADER}\t[+] Updating apt... please type your pass..."
+echo -e "${HEADER}\t[+] Updating apt... please type your pass...${ENDC}"
 sudo apt-get update -qq
 
 # TODO: check if python is python 2.7
-echo -e -n "${HEADER}\t[+] Checking if python is installed..."
+echo -e -n "${HEADER}\t[+] Checking if python is installed...${ENDC}"
 dpkg -s python >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
-    echo -e -n "${ERROR}FAIL\n\t${HEADER}\t[-] Installing python..."
+    echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing python...${ENDC}"
 
-    sudo apt-get install -y -qq python
+    sudo apt-get install -y python >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
 	    echo -e "${OK}OK${ENDC}"
@@ -36,13 +36,13 @@ else
     echo -e "${OK}OK${ENDC}"
 fi
 
-echo -e -n "${HEADER}\t[+] Checking if python-pip is installed..."
+echo -e -n "${HEADER}\t[+] Checking if python-pip is installed...${ENDC}"
 dpkg -s python-pip >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
-    echo -e -n "${ERROR}FAIL\n\t${HEADER}\t[-] Installing python-pip..."
+    echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing python-pip...${ENDC}"
 
-    sudo apt-get install -y -qq python-pip
+    sudo apt-get install -y python-pip >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
         echo -e "${OK}OK${ENDC}"
@@ -53,11 +53,11 @@ else
     echo -e "${OK}OK${ENDC}"
 fi
 
-echo -e -n "${HEADER}\t[+] Checking if python module requests is installed..."
+echo -e -n "${HEADER}\t[+] Checking if python module requests is installed...${ENDC}"
 python -c "import requests" >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
-    echo -e -n "${ERROR}FAIL\n\t${HEADER}\t[-] Installing requests module..."
+    echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing requests module...${ENDC}"
     pip install --user requests >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
@@ -79,14 +79,11 @@ echo -e -n "${HEADER}\t[+] Checking if alias $alias_def already exists in ~/.ali
 grep -Fx "alias $alias_def" ~/.aliases >/dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-    echo -e "${ERROR}FAIL${ENDC}"
-    echo -e "${HEADER}\t\t[-] Setting $alias_long as alias...${OK}OK${ENDC}"
+    echo -e "${ERROR}FAIL\n${HEADER}\t\t[-] Setting $alias_long as alias...${OK}OK${ENDC}"
     echo "alias $alias_long='${PWD}/control.py'" >> ~/.aliases
     alias_final=$alias_long
-    
 else
-    echo -e "${OK}OK${ENDC}"
-    echo -e "${HEADER}\t\t[-] Setting $alias_def as alias...${OK}OK${ENDC}"
+    echo -e "${OK}OK\n${HEADER}\t\t[-] Setting $alias_def as alias...${OK}OK${ENDC}"
     echo "alias $alias_def='${PWD}/control.py'" >> ~/.aliases
     alias_final=$alias_def
 fi
@@ -97,8 +94,7 @@ grep -Fx "source ~/.aliases" ~/.bashrc >/dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${OK}OK${ENDC}"
 else
-    echo -e "${ERROR}FAIL${ENDC}"
-    echo -e "${HEADER}\t[-] Adding alias to .bashrc...${OK}OK${ENDC}"
+    echo -e $"${ERROR}FAIL\n{HEADER}\t\t[-] Adding alias to .bashrc...${OK}OK${ENDC}"
     echo "source ~/.aliases" >> ~/.bashrc    
 fi
 
@@ -109,8 +105,7 @@ grep -Fx "source ~/.aliases" ~/.zshrc >/dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo -e "${OK}OK${ENDC}"
 else
-    echo -e "${ERROR}FAIL${ENDC}"
-    echo -e "${HEADER}\t[-] Adding alias to .zshrc...${OK}OK${ENDC}"
+    echo -e "${ERROR}FAIL\n${HEADER}\t\t[-] Adding alias to .zshrc...${OK}OK${ENDC}"
     echo "source ~/.aliases" >> ~/.zshrc
 fi
 
