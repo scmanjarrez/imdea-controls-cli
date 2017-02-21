@@ -1,12 +1,11 @@
-imdea-control-python
+imdea-control-python [![Release](https://img.shields.io/github/release/scmanjarrez/imdea-control-python.svg)](https://github.com/scmanjarrez/imdea-control-python.svg)
 ====================
-
  [![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](https://travis-ci.org/scmanjarrez/imdea-control-python(LICENSE.md)
 
 
 Status Travis CI
 ----------------
-| Branch | Status |
+| Branch | Status | 
 | :-: | :-: |
 | `master` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-control-python.svg?branch=master)](https://travis-ci.org/scmanjarrez/imdea-control-python) |
 | `dev` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-control-python.svg?branch=dev)](https://travis-ci.org/scmanjarrez/imdea-control-python) |
@@ -51,28 +50,37 @@ $ cp .credentials.template .credentials
 ```
 1. Edit the `.credentials` with your IMDEA Software information.
 ```
-username: USERNAME
-password: PASSWORD
-room_no: ROOM
+[credentials]
+user = Your_IMDEA-Software_User
+pass = Your_IMDEA-Software_Pass
+room = Your_IMDEA-Software_Room_to_modify
 ```
 
 
 Authors
 -------
 
-* [Sergio]()
+* Sergio
 * [Sergio Valverde](https://github.com/svg153)
 
 
-License
--------
+Licensing
+---------
 [![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](https://travis-ci.org/scmanjarrez/imdea-control-python(LICENSE.md)
+Docker is licensed under (TBD). See LICENSE (TBD) for the full license text.
+
+
 
 
 Credits
 -------
 * [Michael Emmi](https://github.com/michael-emmi) for his [imdea-controls script].
 * [Sergio Valverde](https://github.com/svg153) for [improving](https://github.com/svg153/imdea-controls) the Michael Emmi [imdea-controls script].
+
+
+Contributing
+------------
+TBD
 
 
 [IMDEA Software Institute]:http://www.software.imdea.org
