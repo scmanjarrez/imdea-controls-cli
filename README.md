@@ -1,6 +1,6 @@
 imdea-control-python [![Release](https://img.shields.io/github/release/scmanjarrez/imdea-control-python.svg)](https://github.com/scmanjarrez/imdea-control-python.svg)
 ====================
- [![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](https://travis-ci.org/scmanjarrez/imdea-control-python(LICENSE.md)
+ [![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
 Status Travis CI
@@ -66,7 +66,7 @@ Authors
 
 Licensing
 ---------
-[![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](https://travis-ci.org/scmanjarrez/imdea-control-python(LICENSE.md)
+[![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](LICENSE.md)
 Docker is licensed under (TBD). See LICENSE (TBD) for the full license text.
 
 
