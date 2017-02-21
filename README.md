@@ -66,7 +66,7 @@ Authors
 
 Licensing
 ---------
-[![license](https://img.shields.io/github/license/scmanjarrez/imdea-control-python.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 Docker is licensed under (TBD). See LICENSE (TBD) for the full license text.
 
 
