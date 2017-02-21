@@ -141,7 +141,7 @@ def author():
         .format("Author", "Sergio Chica", "@scmanjarrez",
                 bcolors.HEADER, bcolors.OK, bcolors.ENDC)
     print "\t| {3}{0: <15}{5} | {4}{1: <15}{5} | {4}{2: >15}{5} |"\
-        .format("Acknowledgment", "Sergio Valverde", "@svg153",
+        .format("Author", "Sergio Valverde", "@svg153",
                 bcolors.HEADER, bcolors.OK, bcolors.ENDC)
     print "\t"+"-" * 55
     print "\t| {1}{0: ^51}{2} |"\
