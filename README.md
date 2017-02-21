@@ -17,7 +17,7 @@ A script to control the room blinds, temperature, lights and door at the [IMDEA 
 
 Dependencies
 ------------
-You do not worry about this, only run `install.sh` script.
+You do not have to worry about this, only run `install.sh` script.
 
 * Python 2.7
   * See [requeriments.txt]
@@ -28,27 +28,27 @@ Installation
 ------------
 1. Clone the project.
 ```shell
-$ git clone https://travis-ci.org/scmanjarrez/imdea-control-python
+$ git clone https://github.com/scmanjarrez/imdea-control-python.git
 ```
-1. Change to the folder.
+2. Change to the folder.
 ```shell
 $ cd imdea-control-python
 ```
-1. Give execute permission to `install.sh`.
+3. Give execute permission to `install.sh`.
 ```shell
 $ chmod +x install.sh
 ```
-1. Run install script.
+4. Run install script.
   * Install python, pip, and [requeriments.txt]
-  * This will create an alias in `~/.aliases` to run the script in any location.
+  * This will create an alias in `~/.aliases` to run the python script at any location.
 ```shell
 $ ./install.sh
 ```
-1. Create the configuration file, `.credentials` from template.
+5. Create the configuration file, `.credentials` from template.
 ```shell
 $ cp .credentials.template .credentials
 ```
-1. Edit the `.credentials` with your IMDEA Software information.
+6. Edit the `.credentials` with your IMDEA Software information.
 ```
 [credentials]
 user = Your_IMDEA-Software_User
@@ -60,7 +60,7 @@ room = Your_IMDEA-Software_Room_to_modify
 Authors
 -------
 
-* Sergio
+* [Sergio Chica](https://github.com/scmanjarrez)
 * [Sergio Valverde](https://github.com/svg153)
 
 
