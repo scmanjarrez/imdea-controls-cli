@@ -27,28 +27,34 @@ You do not have to worry about this, only run `install.sh` script.
 Installation
 ------------
 1. Clone the project.
+
    ```shell
    $ git clone https://github.com/scmanjarrez/imdea-control-python.git
    ```
 2. Change to the folder.
+
    ```shell
    $ cd imdea-control-python
    ```
 3. Give execute permission to `install.sh`.
+
    ```shell
    $ chmod +x install.sh
    ```
 4. Run install script.
   * Install python, pip, and [requeriments.txt]
   * This will create an alias in `~/.aliases` to run the python script at any location.
+  
   ```shell
   $ ./install.sh
   ```
 5. Create the configuration file, `.credentials` from template.
+
    ```shell
    $ cp .credentials.template .credentials
    ```
 6. Edit the `.credentials` with your IMDEA Software information.
+
    ```
    [credentials]
    user = Your_IMDEA-Software_User
