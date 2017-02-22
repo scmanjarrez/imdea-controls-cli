@@ -20,12 +20,12 @@ sudo apt-get update -qq
 
 # TODO: check if python is python 2.7
 echo -e -n "${HEADER}\t[+] Checking if python is installed...${ENDC}"
-dpkg -s python >/dev/null 2>&1
+dpkg -s python2.7 >/dev/null 2>&1
 
 if [ $? -ne 0 ]; then
     echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing python...${ENDC}"
 
-    sudo apt-get install -y python >/dev/null 2>&1
+    sudo apt-get install -y python2.7 >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
 	    echo -e "${OK}OK${ENDC}"
