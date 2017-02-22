@@ -20,7 +20,7 @@ Dependencies
 You do not have to worry about this, only run `install.sh` script.
 
 * Python 2.7
-  * See [requeriments.txt]
+  * See [requeriments.txt](requeriments.txt)
 * An account and office at the [IMDEA Software Institute].
 
 
