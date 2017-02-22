@@ -84,7 +84,7 @@ Credits
 
 Contributing
 ------------
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
+See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for more info.
 
 
 [IMDEA Software Institute]:http://www.software.imdea.org
