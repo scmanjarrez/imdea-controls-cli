@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2.7
 
 import requests
 import ConfigParser
@@ -12,7 +12,10 @@ from ast import literal_eval
 
 URI = 'https://software.imdea.org/intranet/'
 
-conf_filepath = os.path.abspath(os.path.dirname(__file__)) + '/.credentials'
+conf_word = 'credentials'
+conf_filename = '.credentials'
+conf_template_filename = '.credentials.template'
+conf_filepath = os.path.abspath(os.path.dirname(__file__)) + '/' + conf_filename
 
 ROOM = 0
 
@@ -39,7 +42,7 @@ states = OrderedDict([('temp', 'Current Temperature'),
 args_text = {'temp': 'temperature',
              'window_light': 'window light',
              'door_light': 'door light',
-             'fan_speed': 'fan speed',
+             'fanspeed': 'fan speed',
              'climate_mode': 'climate mode',
              'climate_control': 'climate control',
              'blind': 'roller blind'}
@@ -54,13 +57,38 @@ controls = {'temp': 'temp',
             'blind': 'blind',
             'opdoor': 'door_open'}
 
-defaults = {'door_light': 'OFF',
-            'window_light': 'OFF',
-            'blind': '10',
-            'climate_mode': 'FAN_ONLY',
-            'climate_control': 'OFF',
-            'fanspeed': '100',
-            'temp': '25'}
+room_confs = {
+    'defaults':
+    {
+        'door_light': 'OFF',
+        'window_light': 'OFF',
+        'blind': '10',
+        'climate_mode': 'FAN_ONLY',
+        'climate_control': 'OFF',
+        'fanspeed': '100',
+        'temp': '25'
+    },
+    'winter_heat':
+    {
+        'door_light': 'AUTO',
+        'window_light': 'AUTO',
+        'blind': '80',
+        'climate_mode': 'HEAT',
+        'climate_control': 'ON',
+        'fanspeed': '100',
+        'temp': '23'
+    },
+    'summer_cold':
+    {
+        'door_light': 'AUTO',
+        'window_light': 'AUTO',
+        'blind': '80',
+        'climate_mode': 'COLD',
+        'climate_control': 'ON',
+        'fanspeed': '100',
+        'temp': '25'
+    }
+}
 
 cc_values = ['ON', 'OFF']
 cm_values = ['HEAT', 'COOL', 'FAN_ONLY']
@@ -98,9 +126,9 @@ class ProcessingConfig:
 
         # IMDEA Credentials
         try:
-            self.user = config.get('credentials', 'user')
-            self.passwd = config.get('credentials', 'pass')
-            self.room = config.getint('credentials', 'room')
+            self.user = config.get(conf_word, 'user')
+            self.passwd = config.get(conf_word, 'pass')
+            self.room = config.getint(conf_word, 'room')
 
         except Exception:
             file_format()
@@ -113,7 +141,7 @@ def author():
         .format("Author", "Sergio Chica", "@scmanjarrez",
                 bcolors.HEADER, bcolors.OK, bcolors.ENDC)
     print "\t| {3}{0: <15}{5} | {4}{1: <15}{5} | {4}{2: >15}{5} |"\
-        .format("Acknowledgment", "Sergio Valverde", "@svg153",
+        .format("Author", "Sergio Valverde", "@svg153",
                 bcolors.HEADER, bcolors.OK, bcolors.ENDC)
     print "\t"+"-" * 55
     print "\t| {1}{0: ^51}{2} |"\
@@ -127,19 +155,23 @@ def author():
 
 
 def file_format():
-    print "File should be named \".credentials\"",
-    print "or indicate the path with the -cf argument"
-    print "and must have the following format:"
+    print "File should be named \""+conf_filename+"\"",
+    print "or indicate the path with the -cf argument."
     print ""
-    print "[credentials]"
-    print "user = Your_IMDEA_User"
-    print "pass = Your_IMDEA_Pass"
-    print "room = Room_to_modify"
+    print "Please copy the file \""+conf_template_filename+"\""
+    print "to \""+conf_filename+"\" and put your IMDEA Software"
+    print "user, password and room, inside the file."
 
 
-def set_default(session):
-    for dflt in defaults:
-        set_control(session, dflt, defaults[dflt])
+def set_default(session, config):
+    print bcolors.HEADER\
+        + "[++] Setting room with"\
+        + " '" + config + "' "\
+        + "settings"\
+        + bcolors.ENDC
+
+    for dflt in room_confs[config]:
+        set_control(session, dflt, room_confs[config][dflt])
 
 
 def set_control(session, control, value):
@@ -263,7 +295,7 @@ def login(config, args):
     if req.text.find('Welcome') == -1:
         print bcolors.ERROR\
             + "\t[-] ERROR: Login could not be completed, "\
-            + "check your credentials."\
+            + "check your "+conf_word+"."\
             + bcolors.ENDC
         sys.exit(1)
 
@@ -287,7 +319,14 @@ def main(argparser, args):
     if args.state:
         get_current_state(session)
     elif args.default:
-        set_default(session)
+        if args.default not in room_confs:
+            print bcolors.ERROR\
+                + "\t[-] The configuration room"\
+                + " '" + args.default + "' "\
+                + "does not exist."\
+                + bcolors.ENDC
+        else:
+            set_default(session, args.default)
     else:
         actions = list_used_options(argparser, args)
         for act in actions:
@@ -321,8 +360,8 @@ if __name__ == '__main__':
     argparser.add_argument('-cf', '--conf',
                            help='If set, uses specific configuration file.')
 
-    argparser.add_argument('-ff', '--file_format',
-                           help='Show credentials file format.',
+    argparser.add_argument('-ff', '--fformat',
+                           help='Show '+conf_filename+' file format.',
                            action='store_true')
 
     argparser.add_argument('-at', '--author',
@@ -339,8 +378,8 @@ if __name__ == '__main__':
                        action='store_true')
 
     group.add_argument('-def', '--default',
-                       help='Set the default values.',
-                       action='store_true')
+                       nargs='?', const='defaults',
+                       help='Set the room with preconfigured settings.')
 
     group.add_argument('-t', '--temp',
                        help='Set the temperature.')
@@ -379,7 +418,7 @@ if __name__ == '__main__':
     if not any(vars(args).values()):
         argparser.error("No argument provided.")
 
-    if args.file_format:
+    if args.fformat:
         file_format()
         sys.exit()
 
@@ -388,6 +427,7 @@ if __name__ == '__main__':
         sys.exit()
 
     print bcolors.HEADER\
-        + "[+] Script started"\
+        + "[++] Script started"\
         + bcolors.ENDC
+
     main(argparser, args)
