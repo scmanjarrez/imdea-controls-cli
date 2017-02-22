@@ -2,6 +2,7 @@ imdea-control-python [![Release](https://img.shields.io/github/release/scmanjarr
 ====================
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
+A script to control the room blinds, temperature, lights and door at the [IMDEA Software Institute].
 
 Status Travis CI
 ----------------
@@ -9,10 +10,6 @@ Status Travis CI
 | :-: | :-: |
 | `master` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-control-python.svg?branch=master)](https://travis-ci.org/scmanjarrez/imdea-control-python) |
 | `dev` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-control-python.svg?branch=dev)](https://travis-ci.org/scmanjarrez/imdea-control-python) |
-
-
-
-A script to control the room blinds, temperature, lights and door at the [IMDEA Software Institute].
 
 
 Dependencies
@@ -73,7 +70,8 @@ Authors
 Licensing
 ---------
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-Docker is licensed under (TBD). See LICENSE (TBD) for the full license text.
+
+imdea-control-python is licensed under Apache 2.0. See [LICENSE](LICENSE) for the full license text.
 
 
 
@@ -86,7 +84,7 @@ Credits
 
 Contributing
 ------------
-TBD
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
 
 
 [IMDEA Software Institute]:http://www.software.imdea.org
