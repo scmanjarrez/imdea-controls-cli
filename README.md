@@ -42,7 +42,7 @@ Installation
    $ chmod +x install.sh
    ```
 4. Run install script.
-  * Install python, pip, and [requeriments.txt]
+  * Install python, pip, and [requeriments.txt](requeriments.txt)
   * This will create an alias in `~/.aliases` to run the python script at any location.
   
   ```shell
