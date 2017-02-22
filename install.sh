@@ -70,9 +70,9 @@ EOF
     python .virtualenv-test
     
     if [ $? -eq 1 ]; then
-	pip install requests >/dev/null 2>&1
+	pip install -r requeriments.txt >/dev/null 2>&1
     else
-	pip install --user requests >/dev/null 2>&1
+	pip install --user -r requeriments.txt >/dev/null 2>&1
     fi
 
     if [ $? -eq 0 ]; then
