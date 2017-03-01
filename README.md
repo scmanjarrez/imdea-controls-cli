@@ -1,4 +1,4 @@
-imdea-control-python [![Release](https://img.shields.io/github/release/scmanjarrez/imdea-control-python.svg)](https://github.com/scmanjarrez/imdea-control-python.svg)
+imdea-controls-cli [![Release](https://img.shields.io/github/release/scmanjarrez/imdea-controls-cli.svg)](https://github.com/scmanjarrez/imdea-controls-cli.svg)
 ====================
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -6,10 +6,10 @@ A script to control the room blinds, temperature, lights and door at the [IMDEA 
 
 Status Travis CI
 ----------------
-| Branch | Status | 
+| Branch | Status |
 | :-: | :-: |
-| `master` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-control-python.svg?branch=master)](https://travis-ci.org/scmanjarrez/imdea-control-python) |
-| `dev` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-control-python.svg?branch=dev)](https://travis-ci.org/scmanjarrez/imdea-control-python) |
+| `master` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-controls-cli.svg?branch=master)](https://travis-ci.org/scmanjarrez/imdea-controls-cli) |
+| `dev` | [![Travis branch](https://travis-ci.org/scmanjarrez/imdea-controls-cli.svg?branch=dev)](https://travis-ci.org/scmanjarrez/imdea-controls-cli) |
 
 
 Dependencies
@@ -26,12 +26,12 @@ Installation
 1. Clone the project.
 
    ```shell
-   $ git clone https://github.com/scmanjarrez/imdea-control-python.git
+   $ git clone https://github.com/scmanjarrez/imdea-controls-cli.git
    ```
 2. Change to the folder.
 
    ```shell
-   $ cd imdea-control-python
+   $ cd imdea-controls-cli
    ```
 3. Give execute permission to `install.sh`.
 
@@ -41,7 +41,7 @@ Installation
 4. Run install script.
   * Install python, pip, and [requeriments.txt](requeriments.txt)
   * This will create an alias in `~/.aliases` to run the python script at any location.
-  
+
   ```shell
   $ ./install.sh
   ```
@@ -71,7 +71,7 @@ Licensing
 ---------
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-imdea-control-python is licensed under Apache 2.0. See [LICENSE](LICENSE) for the full license text.
+imdea-controls-cli is licensed under Apache 2.0. See [LICENSE](LICENSE) for the full license text.
 
 
 
@@ -88,6 +88,6 @@ See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for more info.
 
 
 [IMDEA Software Institute]:http://www.software.imdea.org
-[imdea-control-python]:https://github.com/scmanjarrez/imdea-control-python
+[imdea-controls-cli]:https://github.com/scmanjarrez/imdea-controls-cli
 [imdea-controls script]:https://github.com/michael-emmi/imdea-controls
-[requeriments.txt]:https://github.com/scmanjarrez/imdea-control-python
+[requeriments.txt]:https://github.com/scmanjarrez/imdea-controls-cli

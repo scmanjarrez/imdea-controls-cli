@@ -1,7 +1,7 @@
 
 # to run:
-#    * docker build --tag imdea-control-python .
-#    * docker run --interactive --rm --tty imdea-control-python bash
+#    * docker build --tag imdea-controls-cli .
+#    * docker run --interactive --rm --tty imdea-controls-cli bash
 
 FROM ubuntu:16.04
 

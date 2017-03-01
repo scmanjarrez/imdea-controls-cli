@@ -59,7 +59,7 @@ python -c "import requests" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo -e -n "${ERROR}FAIL\n${HEADER}\t\t[-] Installing requests module...${ENDC}"
 
-    cat <<EOF > .virtualenv-test 
+    cat <<EOF > .virtualenv-test
 import sys
 
 if hasattr(sys, 'real_prefix'):
@@ -68,7 +68,7 @@ if hasattr(sys, 'real_prefix'):
 EOF
 
     python .virtualenv-test
-    
+
     if [ $? -eq 1 ]; then
 	pip install -r requeriments.txt >/dev/null 2>&1
     else
@@ -80,7 +80,7 @@ EOF
     else
         echo -e "${ERROR}ERROR${ENDC}"
     fi
-    
+
     rm .virtualenv-test
 else
     echo -e "${OK}OK${ENDC}"
@@ -89,8 +89,8 @@ fi
 echo ""
 echo -e "${HEADER}[++] Setting alias for control.py...${ENDC}"
 
-alias_def="icp"
-alias_long="imdea-control"
+alias_def="ic"
+alias_long="imdea-controls"
 alias_final="" # to set with the final alias added in ~/.aliases
 echo -e -n "${HEADER}\t[+] Checking if alias $alias_def already exists in ~/.aliases file...${ENDC}"
 grep -Fx "alias $alias_def" ~/.aliases >/dev/null 2>&1
@@ -112,7 +112,7 @@ if [ $? -eq 0 ]; then
     echo -e "${OK}OK${ENDC}"
 else
     echo -e $"${ERROR}FAIL\n${HEADER}\t\t[-] Adding alias to .bashrc...${OK}OK${ENDC}"
-    echo "source ~/.aliases" >> ~/.bashrc    
+    echo "source ~/.aliases" >> ~/.bashrc
 fi
 
 
