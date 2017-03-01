@@ -23,21 +23,25 @@ You do not have to worry about this, only run [`install.sh`] script.
 
 Installation
 ------------
+
 1. Clone the project.
 
    ```shell
    $ git clone https://github.com/scmanjarrez/imdea-controls-cli.git
    ```
+
 2. Change to the folder.
 
    ```shell
    $ cd imdea-controls-cli
    ```
+
 3. Give execute permission to install script, [`install.sh`].
 
    ```shell
    $ chmod +x install.sh
    ```
+
 4. Run install script.
   * Install python, pip, and [requeriments.txt]
   * This will create an alias in `~/.aliases` to run the python script at any location.
@@ -45,11 +49,13 @@ Installation
   ```shell
   $ ./install.sh
   ```
+
 5. Create the configuration file, `.credentials` from template, [`.credentials.template`].
 
    ```shell
    $ cp .credentials.template .credentials
    ```
+
 6. Edit the `.credentials` with your [IMDEA Software Institute] information.
 
    ```
@@ -58,6 +64,11 @@ Installation
    pass = Your_IMDEA-Software_Pass
    room = Your_IMDEA-Software_Room_to_modify
    ```
+
+7. Change permissions to file:
+    ```
+    $ chmod 600 .credentials
+    ```
 
 
 Authors
