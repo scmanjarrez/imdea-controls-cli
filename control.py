@@ -331,8 +331,6 @@ def main(argparser, args):
     else:
         actions = list_used_options(argparser, args)
         for act in actions:
-            print act
-            continue
             if act[0] == 'lights':
                 lights = literal_eval(controls[act[0]])
                 set_control(session, lights[0], act[1])
