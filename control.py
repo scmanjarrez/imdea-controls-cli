@@ -301,7 +301,8 @@ def login(config, args):
 
     global ROOM
     if args.room:
-        ROOM = args.room
+        ROOM = args.room        
+        args.room = None # Unset the variable, so is not listed in actions
     else:
         ROOM = config.room
 
