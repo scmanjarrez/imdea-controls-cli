@@ -374,7 +374,7 @@ if __name__ == '__main__':
 
     group = argparser.add_argument_group('mandatory arguments')
 
-    group.add_argument('-st', '--state',
+    group.add_argument('-s', '--state',
                        help='Get current state.',
                        action='store_true')
 
