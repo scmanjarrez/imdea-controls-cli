@@ -95,7 +95,7 @@ Credits
 
 Contributing
 ------------
-See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for more info.
+See [CONTRIBUTING](.github/CONTRIBUTING.md) for more info.
 
 
 
